@@ -6,14 +6,15 @@
  */
 function getGoogleClient($headless = TRUE)
 {
+    global $config_dir;
     $client = new Google_Client();
     $client->setApplicationName('Oikopupu');
     $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-    $client->setAuthConfig('credentials.json');
+    $client->setAuthConfig($config_dir.'credentials.json');
     $client->setAccessType('offline');
 
     // Load previously authorized credentials from a file.
-    $credentialsPath = 'token.json';
+    $credentialsPath = $config_dir.'token.json';
     if (file_exists($credentialsPath)) {
         $accessToken = json_decode(file_get_contents($credentialsPath), true);
     } else if ($headless) {
@@ -34,9 +35,6 @@ function getGoogleClient($headless = TRUE)
         }
 
         // Store the credentials to disk.
-        if (!file_exists(dirname($credentialsPath))) {
-            mkdir(dirname($credentialsPath), 0700, true);
-        }
         file_put_contents($credentialsPath, json_encode($accessToken));
         printf("Credentials saved to %s\n", $credentialsPath);
     }

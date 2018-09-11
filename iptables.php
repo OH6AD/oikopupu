@@ -4,8 +4,9 @@
  * Oikopupu
  */
 
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/googlesheets.php';
+require_once __DIR__ . '/common.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/googlesheets.php';
 
 // Take parameters from GET arguments, if not HTTP then use environment.
 if (empty($_GET)) {
