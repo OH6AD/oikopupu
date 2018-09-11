@@ -5,6 +5,7 @@
  */
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/googlesheets.php';
 
 // Take parameters from GET arguments, if not HTTP then use environment.
 if (empty($_GET)) {
@@ -19,42 +20,11 @@ if (empty($_GET)) {
 // delimited by spaces. Creating array from them.
 $skip = empty($skip_str) ? [] : explode(" ", $skip_str);
 
-/**
- * Returns an authorized API client.
- * @return Google_Client the authorized client object
- */
-function getClient()
-{
-    $client = new Google_Client();
-    $client->setApplicationName('Oikopupu');
-    $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-    $client->setAuthConfig('credentials.json');
-    $client->setAccessType('offline');
-
-    // Load previously authorized credentials from a file.
-    $credentialsPath = 'token.json';
-    if (file_exists($credentialsPath)) {
-        $accessToken = json_decode(file_get_contents($credentialsPath), true);
-    } else {
-        throw new Exception('You must login first using login.php.');
-    }
-    $client->setAccessToken($accessToken);
-
-    // Refresh the token if it's expired.
-    if ($client->isAccessTokenExpired()) {
-        $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
-    }
-    return $client;
-}
-
-
 // Get the API client and construct the service object.
-$client = getClient();
+$client = getGoogleClient();
 $service = new Google_Service_Sheets($client);
 
-// Prints the names and majors of students in a sample spreadsheet:
-// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+// Read IP allocations from Pupu Assigned Names And Numbers Authority (PANANA)
 $spreadsheetId = '1_lFzWQ_vjAgZVzJ1Alpo0noRWXfNiwiDLibN31orwmU';
 $range = 'Hosts!A1:M';
 $response = $service->spreadsheets_values->get($spreadsheetId, $range);
