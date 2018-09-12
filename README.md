@@ -36,22 +36,26 @@ file to this repo.
 
 ## Login
 
-Create Google API key, download its credentials and give credentials
-as an argument to login script:
+Create Google API key and download its credentials. Follow the
+instructions at
+[https://developers.google.com/sheets/api/quickstart/php#step_1_turn_on_the](Google Sheets PHP Quickstart Guide).
+
+Then and give credentials file as an argument to login script:
 
 ```sh
 ./login /path/to/credentials.json
 ```
 
-Follow its instructions. You need to allow the access using your
-browser and then copy-paste the given key back to the command line.
+Follow script's instructions. You need to allow the access by opening
+the given link using your browser and then copy-paste the key back to
+the command line.
 
 ## Running
 
 ### As standalone
 
 ```sh
-format=iptables skip="`hostname -I`" ./iptables.php | sudo iptables-save --noflush
+format=iptables skip="`hostname -I`" ./dist/index.php | sudo iptables-save --noflush
 ```
 
 ### As web service
