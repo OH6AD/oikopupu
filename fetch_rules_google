@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+$_GET = [
+    'format' => 'iptables',
+    'skip' => `hostname -I`,
+];
+
+require_once __DIR__ . '/dist/index.php';

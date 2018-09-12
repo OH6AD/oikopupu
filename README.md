@@ -55,7 +55,7 @@ the command line.
 ### As standalone
 
 ```sh
-format=iptables skip="`hostname -I`" ./dist/index.php | sudo iptables-save --noflush
+./fetch_rules_google | sudo iptables-restore --noflush
 ```
 
 ### As web service
