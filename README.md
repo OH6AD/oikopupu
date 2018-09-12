@@ -22,7 +22,7 @@ sudo apt install composer
 composer install
 ```
 
-### Updating dependencies
+### Updating dependencies (optional)
 
 If this project gets unmaintained and the dependencies die out, just
 update them from `composer.json`:
@@ -50,7 +50,9 @@ browser and then copy-paste the given key back to the command line.
 
 ### As standalone
 
+```sh
 format=iptables skip="`hostname -I`" ./iptables.php | sudo iptables-save --noflush
+```
 
 ### As web service
 
