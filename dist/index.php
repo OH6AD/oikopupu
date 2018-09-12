@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 /**
  * Oikopupu
@@ -9,14 +8,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../googlesheets.php';
 require_once __DIR__ . '/../iptables.php';
 
-// Take parameters from GET arguments, if not HTTP then use environment.
-if (empty($_GET)) {
-    $format = getenv("format");
-    $skip_str = getenv("skip");
-} else {
-    $format = $_GET['format'];
-    $skip_str = $_GET['skip'];
-}
+// Take parameters from GET arguments
+$format = $_GET['format'] ?? 'json';
+$skip_str = $_GET['skip'] ?? '';
 
 // Get the API client and construct the service object.
 $client = getGoogleClient();
@@ -74,12 +68,15 @@ case 'iptables':
     $output = drop_skip($output, $skip_str);
 
     // Output final iptables ruleset
+    header('Content-Type: text/plain; charset=utf-8');
     print(iptables_format($output));
-    
+
     break;
 case 'json':
+    header('Content-Type: application/json; charset=utf-8');
     print(json_encode($output));
+
     break;
 default:
-    throw new Exception("Invalid format requested");
+    throw new Exception("Invalid format requested: $format");
 }
