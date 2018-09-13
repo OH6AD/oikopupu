@@ -13,12 +13,12 @@ hosted on Google Sheets to use this application.
 NB! You need to ensure all the listed hosts provide the same services (such
 as HTTP) to both Pupu and Internet interfaces.
 
-## Installation
+## Installation (web server)
 
 Install PHP, composer, and Google Sheets API:
 
 ```sh
-sudo apt install composer
+sudo apt install composer php-fpm
 composer install
 ```
 
@@ -34,7 +34,7 @@ composer update
 Test it and if it works after update, then commit the changed lock
 file to this repo.
 
-## Login
+### Login
 
 Create Google API key and download its credentials. Follow the
 instructions at
@@ -50,14 +50,32 @@ Follow script's instructions. You need to allow the access by opening
 the given link using your browser and then copy-paste the key back to
 the command line.
 
-## Running
+### Test in standalone mode
 
-### As standalone
+This should output `iptables` chains in text mode:
 
 ```sh
-./fetch_rules_google | sudo iptables-restore --noflush
+./fetch_rules_google
 ```
 
-### As web service
+### Web service setup
 
-TODO
+Setup php-fpm as usual. Host `dist/` directory only.
+
+## Installation (client)
+
+Install PHP and curl library
+
+```sh
+sudo apt install php-cli php-curl
+```
+
+### Run
+
+On client:
+
+```sh
+./fetch_rules https://example.com/oikopupu | sudo iptables-restore --noflush
+```
+
+TODO systemd job etc.

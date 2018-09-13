@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/common.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/googlesheets.php';
+require_once __DIR__ . '/iptables.php';
+
+if (count($argv) !== 2) {
+    fprintf(STDERR, "Usage: %s OIKOPUPU_URL\n", $argv[0]);
+    exit(1);
+}
+
+// Request using cURL.
+$ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL => $argv[1],
+    CURLOPT_FAILONERROR => 1,
+    CURLOPT_FOLLOWLOCATION => 1,
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_RETURNTRANSFER => 1,
+]);
+$json = curl_exec($ch);
+curl_close($ch);
+
+// Decode JSON, filter it and output as iptables format
+$output = json_decode($json, TRUE);
+$output = drop_skip($output, `hostname -I`);
+print(iptables_format($output));
