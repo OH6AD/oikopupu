@@ -8,7 +8,20 @@ function iptables_format($output) {
         return max($carry, strlen($a['dev']));
     }, 0);
 
-    // Print header boilerplate
+    // Filter for allowed Pupu hosts
+    print("*filter\n-F PUPU_FILTER\n");
+    foreach($output as $a) {
+        $comment_arg = '"'.escapeshellcmd(sprintf("%-${comment_len}s", $a['dev'])).'"';
+        printf(
+            "-A PUPU_FILTER -d %s -j RETURN -m comment --comment %s\n",
+            $a['pupu_ipv4'], $comment_arg
+        );
+    }
+
+    // Drop all non-matching packets
+    printf("-A PUPU_FILTER -j DROP\n");
+    
+    // Print header boilerplate for NAT
     print("*nat\n-F PUPU_DNAT\n-F PUPU_SNAT\n");
 
     // Produce rules
@@ -17,7 +30,7 @@ function iptables_format($output) {
         printf(
             "-A PUPU_DNAT -d %s -j DNAT --to-destination %s -m comment --comment %s\n".
             "-A PUPU_SNAT -d %s -j MASQUERADE -m comment --comment %s\n",
-            $a['inet_ipv4'], $a['pupu_ipv4'], $comment_arg, $a['inet_ipv4'], $comment_arg
+            $a['inet_ipv4'], $a['pupu_ipv4'], $comment_arg, $a['pupu_ipv4'], $comment_arg
         );
     }
 
