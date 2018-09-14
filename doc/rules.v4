@@ -1,0 +1,33 @@
+# Iptables example configuration. Replace "lan", "internet", and "pupu"
+# to your own interface names or rename the actual network interfaces as
+# those.
+#
+# Oikopupu administers PUPU_FILTER and PUPU_DNAT chains only. Add your
+# own firewall wherever you want, Oikopupu never overwrites anything
+# outside its scope.
+#
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:PUPU_FILTER - [0:0]
+# Allow forwarding from LAN to the Internet, and related replies.
+-A FORWARD -o lan -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i lan -o internet -j ACCEPT
+# Allow routing to Pupu only if it's on Oikopupu white list.
+-A FORWARD ! -i pupu -o pupu -j PUPU_FILTER
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+:PUPU_DNAT - [0:0]
+# Check if peering is needed for packets originating from LAN and this computer.
+# If you need to temporarily disable peering, just remove the following rules.
+-A PREROUTING -i lan -j PUPU_DNAT
+-A OUTPUT -j PUPU_DNAT
+# Perform SNAT to traffic targeted to Pupu and the Internet.
+-A POSTROUTING -o internet -j MASQUERADE
+-A POSTROUTING -o pupu -j MASQUERADE
+COMMIT

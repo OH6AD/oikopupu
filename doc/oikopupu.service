@@ -2,6 +2,8 @@
 [Unit]
 Description=PupuNet peering table sync
 After=network-online.target
+After=netfilter-persistent.service
+Requires=netfilter-persistent.service
 
 [Service]
 Type=oneshot

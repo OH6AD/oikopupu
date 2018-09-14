@@ -2,7 +2,7 @@
 
 function iptables_format($output) {
     ob_start();
-    
+
     // Get longest comment length
     $comment_len = array_reduce($output, function($carry, $a) {
         return max($carry, strlen($a['dev']));
@@ -13,24 +13,20 @@ function iptables_format($output) {
     foreach($output as $a) {
         $comment_arg = '"'.escapeshellcmd(sprintf("%-${comment_len}s", $a['dev'])).'"';
         printf(
-            "-A PUPU_FILTER -d %s -j RETURN -m comment --comment %s\n",
+            "-A PUPU_FILTER -d %s -j ACCEPT -m comment --comment %s\n",
             $a['pupu_ipv4'], $comment_arg
         );
     }
 
-    // Drop all non-matching packets
-    printf("-A PUPU_FILTER -j DROP\n");
-    
     // Print header boilerplate for NAT
-    print("*nat\n-F PUPU_DNAT\n-F PUPU_SNAT\n");
+    print("COMMIT\n*nat\n-F PUPU_DNAT\n");
 
     // Produce rules
     foreach($output as $a) {
         $comment_arg = '"'.escapeshellcmd(sprintf("%-${comment_len}s", $a['dev'])).'"';
         printf(
-            "-A PUPU_DNAT -d %s -j DNAT --to-destination %s -m comment --comment %s\n".
-            "-A PUPU_SNAT -d %s -j MASQUERADE -m comment --comment %s\n",
-            $a['inet_ipv4'], $a['pupu_ipv4'], $comment_arg, $a['pupu_ipv4'], $comment_arg
+            "-A PUPU_DNAT -d %s -j DNAT --to-destination %s -m comment --comment %s\n",
+            $a['inet_ipv4'], $a['pupu_ipv4'], $comment_arg
         );
     }
 
