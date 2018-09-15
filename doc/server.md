@@ -1,4 +1,4 @@
-## Installation (web server)
+# Installation (web server)
 
 Install PHP, composer, and Google Sheets API:
 
@@ -7,7 +7,7 @@ sudo apt install composer php-fpm
 composer install
 ```
 
-### Updating dependencies (optional)
+## Updating dependencies (optional)
 
 If this project gets unmaintained and the dependencies die out, just
 update them from `composer.json`:
@@ -19,7 +19,7 @@ composer update
 Test it and if it works after update, then commit the changed lock
 file to this repo.
 
-### Login
+## Login
 
 Create Google API key and download its credentials. Follow the
 instructions at
@@ -35,7 +35,7 @@ Follow script's instructions. You need to allow the access by opening
 the given link using your browser and then copy-paste the key back to
 the command line.
 
-### Test in standalone mode
+## Test in standalone mode
 
 This should output `iptables` chains in text mode:
 
@@ -43,6 +43,6 @@ This should output `iptables` chains in text mode:
 ./fetch_rules_google
 ```
 
-### Web service setup
+## Web service setup
 
 Setup php-fpm as usual. Host `dist/` directory only.
