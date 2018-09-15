@@ -1,4 +1,4 @@
-# Oikopupu 🐇
+# Oikopupu 🐇⚡
 
 Generates simple SNAT/DNAT peering tables for Pupu Network. Used for
 routing traffic trough PupuNet even when using public IP addresses and
