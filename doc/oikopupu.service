@@ -9,4 +9,4 @@ Requires=netfilter-persistent.service
 Type=oneshot
 User=root
 Group=root
-ExecStart=/bin/sh -c "sudo -u USER /PATH/TO/oikopupu/fetch_rules https://EXAMPLE.COM/oikopupu/ | iptables-restore --noflush"
+ExecStart=/bin/sh -c "sudo -Hu USER /PATH/TO/oikopupu/fetch_rules https://EXAMPLE.COM/oikopupu/ | iptables-restore --noflush"
