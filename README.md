@@ -22,10 +22,10 @@ NB! You need to ensure all the peered hosts provide the same services
 * [Client](doc/client.md) which is a router or standalone computer
   connected to PupuNet wanting to benefit from peering.
 
-## What is PupuNet
+## What is PupuNet?
 
 Pupu Network (PupuNet) is voluntary radio amateur / hackerspace network
 operated in Central Finland. It consists of license free 5.6GHz radio
-links. There's
+links. There's a
 [slideset in Finnish](https://docs.google.com/presentation/d/1mcKpEr5pNB9fg6KunDP3IEJoJpMuC9Em-vqjP4xayTQ/present)
-explaining concept.
+explaining the concept.
