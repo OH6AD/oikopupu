@@ -19,13 +19,47 @@ function getPanana() {
         throw new Exception("No data found");
     }
 
-    $header = array_flip(array_shift($values));
-    return [$header, $values];
+    return $values;
 }
 
 function ipv4_normalize($ipv4_raw) {
     // Validate IPv4
-    preg_match('/^0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)$/', $ipv4_raw, $matches);
-    if (array_shift($matches) === NULL) throw new Exception("Invalid IP address: $line");
+    preg_match('/\s*^0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\s*$/', $ipv4_raw, $matches);
+    if (array_shift($matches) === NULL) throw new Exception("Invalid IP address: $ipv4_raw");
     return implode('.', $matches);
+}
+
+function string_safe($raw, $safechar='-') {
+    $safechar_esc = preg_quote($safechar);
+    $ascii = strtolower(iconv("utf-8","ascii//TRANSLIT", $raw));
+    $alphanum = preg_replace(['/[^a-z0-9]/', "/$safechar_esc+/"], $safechar, $ascii);
+    return trim($alphanum, $safechar);
+}
+
+function getPananaObject() {
+    $values = getPanana();
+    $header = array_shift($values);
+    $header_map = array_flip($header);
+
+    // Take only specified headers
+    $take = [
+        'IPv4'            => 'ipv4',
+        'Internet-reitti' => 'internet_host',
+        'Laite'           => 'name',
+    ];
+
+    foreach($values as &$row) {
+        $assoc_in = array_combine($header, array_pad($row, count($header), ''));
+        $assoc_out = [];
+
+        foreach($take as $old => $good) {
+            if (!array_key_exists($old, $assoc_in)) {
+                throw new Exception("Unable to find PANANA header '$old'");
+            }
+            $assoc_out[$good] = trim($assoc_in[$old]);
+        }
+        $row = (object)$assoc_out;
+    }
+
+    return $values;
 }

@@ -10,34 +10,24 @@ require_once __DIR__ . '/../iptables.php';
 $format = $_GET['format'] ?? 'json';
 $skip_str = $_GET['skip'] ?? '';
 
-[$header, $values] = getPanana();
-
-$ipv4_i = $header['IPv4'];
-$internet_i = $header['Internet-reitti'];
-$dev_i = $header['Laite'];
+$panana = getPananaObject();
 
 $output = [];
 
-foreach ($values as $row) {
-    $pupu_ipv4_raw = trim($row[$ipv4_i] ?? '');
-    $host_raw = trim($row[$internet_i] ?? '');
-    $dev = trim($row[$dev_i] ?? '');
-
+foreach ($panana as $device) {
     // If either field is empty, that's OK and we are not interested of them
-    if ($pupu_ipv4_raw === '' || $host_raw === '') continue;
-
-    // Validate Pupu IPv4
-    $pupu_ipv4 = ipv4_normalize($pupu_ipv4_raw);
+    if ($device->ipv4 === '' || $device->internet_host === '') continue;
 
     // Resolve Internet IPv4
+    $host_raw = $device->internet_host;
     $inet_ipv4 = gethostbyname($host_raw);
     if ($inet_ipv4 === $host_raw) throw new Exception("Unable to resolve hostname $host_raw");
 
     // Create the record
     array_push($output, [
         'inet_ipv4' => $inet_ipv4,
-        'pupu_ipv4' => $pupu_ipv4,
-        'dev' => $dev
+        'pupu_ipv4' => ipv4_normalize($device->ipv4),
+        'dev'       => trim($device->name),
     ]);
 }
 
