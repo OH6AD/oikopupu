@@ -3,36 +3,18 @@
  * Oikopupu
  */
 
-require_once __DIR__ . '/../common.php';
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../googlesheets.php';
+require_once __DIR__ . '/../panana.php';
 require_once __DIR__ . '/../iptables.php';
 
 // Take parameters from GET arguments
 $format = $_GET['format'] ?? 'json';
 $skip_str = $_GET['skip'] ?? '';
 
-// Get the API client and construct the service object.
-$client = getGoogleClient();
-$service = new Google_Service_Sheets($client);
+[$header, $values] = getPanana();
 
-// Read IP allocations from Pupu Assigned Names And Numbers Authority (PANANA)
-$spreadsheetId = '1_lFzWQ_vjAgZVzJ1Alpo0noRWXfNiwiDLibN31orwmU';
-$range = 'Hosts!A1:M';
-$response = $service->spreadsheets_values->get($spreadsheetId, $range);
-$values = $response->getValues();
-
-if (empty($values)) {
-    throw new Exception("No data found");
-}
-
-$header = array_shift($values);
-$ipv4_i = array_search("IPv4", $header);
-$internet_i = array_search("Internet-reitti", $header);
-$dev_i = array_search("Laite", $header);
-
-if ($ipv4_i === FALSE) throw new Exception("Unable to find header 'IPv4'");
-if ($internet_i === FALSE) throw new Exception("Unable to find header 'Internet-reitti'");
+$ipv4_i = $header['IPv4'];
+$internet_i = $header['Internet-reitti'];
+$dev_i = $header['Laite'];
 
 $output = [];
 
