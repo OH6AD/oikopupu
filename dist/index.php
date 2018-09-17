@@ -27,9 +27,7 @@ foreach ($values as $row) {
     if ($pupu_ipv4_raw === '' || $host_raw === '') continue;
 
     // Validate Pupu IPv4
-    preg_match('/^0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)$/', $pupu_ipv4_raw, $matches);
-    if (array_shift($matches) === NULL) throw new Exception("Invalid IP address: $line");
-    $pupu_ipv4 = implode('.', $matches);
+    $pupu_ipv4 = ipv4_normalize($pupu_ipv4_raw);
 
     // Resolve Internet IPv4
     $inet_ipv4 = gethostbyname($host_raw);

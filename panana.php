@@ -19,6 +19,13 @@ function getPanana() {
         throw new Exception("No data found");
     }
 
-    $header = array_shift($values);
-    return [array_flip($header), $values];
+    $header = array_flip(array_shift($values));
+    return [$header, $values];
+}
+
+function ipv4_normalize($ipv4_raw) {
+    // Validate IPv4
+    preg_match('/^0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)$/', $ipv4_raw, $matches);
+    if (array_shift($matches) === NULL) throw new Exception("Invalid IP address: $line");
+    return implode('.', $matches);
 }
