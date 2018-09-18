@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   viewBox="0 0 1025.3086 709.8493"
+   height="100%"
+   width="100%"
+   version="1.1"
+   id="svg10652"
+   style="background-color: black">
+  <style>
+@keyframes luuri-rotate {
+    0% { transform:rotate(0deg); }
+    2% { transform:rotate(3deg); }
+    4% { transform:rotate(-2deg); }
+    8% { transform:rotate(0deg); }
+    12% { transform:rotate(3deg); }
+    14% { transform:rotate(-2deg); }
+    16% { transform:rotate(0deg); }
+    20% { transform:rotate(3deg); }
+    22% { transform:rotate(-2deg); }
+    24% { transform:rotate(0deg); }
+    28% { transform:rotate(3deg); }
+    30% { transform:rotate(-2deg); }
+    32% { transform:rotate(0deg); }
+}
+  </style>
+  <metadata
+     id="metadata10658">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10656" />
+  <path
+     id="luuri"
+     d="m 349.36523,261.56641 c -56.99196,20.33799 -75.30536,37.71514 -75.45054,88.44221 -0.14518,50.72707 13.66086,87.0988 25.87632,87.0988 6.0411,0 35.34839,-16.87533 98.92969,-56.96484 13.73287,-15.62753 -5.01818,-33.67134 -5.74023,-53.2793 0,-3.98132 60.23461,-5.69644 119.67382,-5.39062 59.43921,-0.30582 119.67383,1.4093 119.67383,5.39062 -1.70158,15.5328 -18.14789,45.09211 -5.74023,53.2793 63.5813,40.08951 92.88859,56.96484 98.92969,56.96484 12.21546,0 26.0215,-36.37173 25.87632,-87.0988 -0.14518,-50.72707 -18.45858,-68.10422 -75.45054,-88.44221 -112.39095,-38.76771 -219.95049,-37.54789 -326.57813,0 z"
+     style="fill:#fafafa;fill-opacity:1;animation: luuri-rotate 1s linear infinite;transform-origin: center center" />
+  <path
+     d="m 625.97969,165.87323 c 24.456,-25.50252 26.4709,-29.78063 17.5233,-37.2065 -5.5606,-4.61486 -9.1537,-9.34708 -7.9847,-10.51606 4.1997,-4.19977 126.7567,-47.177128 126.7567,-44.450098 0,2.27515 -27.7467,22.84505 -66.9355,49.622338 -4.0356,2.75748 -2.2415,9.11453 4.7539,16.8443 12.0196,13.28154 14.8179,11.71382 -88.8898,49.80012 -8.219,3.0184 -2.8886,-5.67341 14.7761,-24.0941 z m -270.4896,6.11804 c -47.1102,-18.41974 -49.4013,-20.20997 -39.6513,-30.98356 9.6771,-10.69306 8.2412,-13.00704 -22.15,-35.69623 -17.8739,-13.344078 -31.6437,-25.116248 -30.5995,-26.160378 1.0441,-1.04413 28.6132,7.0613 61.2648,18.01205 56.2374,18.861048 58.8164,20.518188 48.9316,31.440758 -9.7644,10.78949 -8.652,13.21254 17.313,37.71371 15.2612,14.40089 24.8549,25.96732 21.3191,25.70319 -3.5357,-0.26415 -28.9282,-9.27742 -56.4277,-20.02954 z"
+     style="fill:#ffdd55;animation: luuri-rotate 1s linear infinite reverse;transform-origin: center center"
+     id="salama" />
+  <text
+     id="puputext"
+     y="544.75427"
+     x="513.06628"
+     style="font-style:normal;font-weight:normal;font-size:58.19081116px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.45477033"
+     xml:space="preserve"><tspan
+       dx="0"
+       style="text-align:center;letter-spacing:-2px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.45477033"
+       y="544.75427"
+       x="512.06628"
+       id="tspan823">OY <tspan
+   id="tspan833"
+   style="font-weight:bold;letter-spacing:-2px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke-width:1.45477033">PULA-AJAN PUHELIN</tspan> AB</tspan><tspan
+       style="font-size:52.8458519px;text-align:center;letter-spacing:-2px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.45477033"
+       id="tspan829"
+       y="617.4928"
+       x="512.06628">DEPARTMENT OF PUPUNET</tspan></text>
+</svg>
