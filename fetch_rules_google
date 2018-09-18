@@ -6,4 +6,4 @@ $_GET = [
     'skip' => `hostname -I`,
 ];
 
-require_once __DIR__ . '/dist/index.php';
+require_once __DIR__ . '/dist/oikopupu.php';
