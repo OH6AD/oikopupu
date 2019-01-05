@@ -9,9 +9,18 @@ function callback($buffer)
 
 ob_start("callback");
 
+if (array_key_exists("host", $_GET)) {
+    $host = $_GET['host'];
+    $host_url = urlencode($host);
+    $url = "https://net.pupu.li/icingaweb2/monitoring/list/services?host=$host_url&format=json";
+} else {
+    $host = null;
+    $url = 'https://net.pupu.li/icingaweb2/monitoring/list/hosts?format=json';
+}
+
 $ch = curl_init();
 curl_setopt_array($ch, [
-    CURLOPT_URL => 'https://net.pupu.li/icingaweb2/monitoring/list/hosts?format=json',
+    CURLOPT_URL => $url,
     CURLOPT_NETRC => TRUE,
     CURLOPT_RETURNTRANSFER => TRUE,
     CURLOPT_FAILONERROR => TRUE,
@@ -31,20 +40,32 @@ echo <<<EOF
 #!ipxe
 set space:hex 20:20
 set space \${space:string}
-menu Tilannehuone
-item exit Palaa päävalikkoon...
+menu Tilannehuone - $host
+item exit Takaisin...
 item --gap
 
 EOF;
 
-foreach ($items as $item) {
-    print("item {$item->host_name} {$item->host_display_name}\n");
-    print("item --gap $space $item->host_output\n");
+if ($host) {
+    foreach ($items as $item) {
+        print("item x {$item->service_display_name}\n");
+        print("item --gap $space $item->service_output\n");
+    }
+} else {
+    foreach ($items as $item) {
+        print("item {$item->host_name} {$item->host_display_name}\n");
+        print("item --gap $space $item->host_output\n");
+    }
 }
 
 echo <<<EOF
 choose --default exit tgt
+iseq \${tgt} exit && exit 0
 
 EOF;
+
+if (!$host) {
+    print("chain --autofree icinga?host=\${tgt}\n");
+}
 
 ob_end_flush();
