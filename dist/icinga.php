@@ -13,9 +13,11 @@ if (array_key_exists("host", $_GET)) {
     $host = $_GET['host'];
     $host_url = urlencode($host);
     $url = "https://net.pupu.li/icingaweb2/monitoring/list/services?host=$host_url&format=json";
+    $menu = "Tilannehuone - $host";
 } else {
     $host = null;
     $url = 'https://net.pupu.li/icingaweb2/monitoring/list/hosts?format=json';
+    $menu = "Tilannehuone";
 }
 
 $ch = curl_init();
@@ -38,17 +40,18 @@ $space = '${space}';
 
 echo <<<EOF
 #!ipxe
+:icingastart
 set space:hex 20:20
 set space \${space:string}
-menu Tilannehuone - $host
-item exit Takaisin...
+menu $menu
+item xexit Takaisin...
 item --gap
 
 EOF;
 
 if ($host) {
     foreach ($items as $item) {
-        print("item x {$item->service_display_name}\n");
+        print("item icingastart {$item->service_display_name}\n");
         print("item --gap $space $item->service_output\n");
     }
 } else {
@@ -59,13 +62,11 @@ if ($host) {
 }
 
 echo <<<EOF
-choose --default exit tgt
-iseq \${tgt} exit && exit 0
+choose --default xexit tgt
+goto \${tgt} || chain --autofree icinga?host=\${tgt}
+goto icingastart
+:xexit
 
 EOF;
-
-if (!$host) {
-    print("chain --autofree icinga?host=\${tgt}\n");
-}
 
 ob_end_flush();
