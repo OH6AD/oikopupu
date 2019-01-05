@@ -2,6 +2,13 @@
 
 require_once __DIR__ . '/../common.php';
 
+function callback($buffer)
+{
+    return recode("..cp437", $buffer);
+}
+
+ob_start("callback");
+
 $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL => 'https://net.pupu.li/icingaweb2/monitoring/list/hosts?format=json',
@@ -25,7 +32,7 @@ echo <<<EOF
 set space:hex 20:20
 set space \${space:string}
 menu Tilannehuone
-item Palaa päävalikkoon
+item exit Palaa päävalikkoon
 
 EOF;
 
@@ -38,3 +45,5 @@ echo <<<EOF
 choose --default exit tgt
 
 EOF;
+
+ob_end_flush();
