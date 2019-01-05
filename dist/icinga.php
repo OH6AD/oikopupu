@@ -32,7 +32,8 @@ echo <<<EOF
 set space:hex 20:20
 set space \${space:string}
 menu Tilannehuone
-item exit Palaa päävalikkoon
+item exit Palaa päävalikkoon...
+item --gap
 
 EOF;
 
