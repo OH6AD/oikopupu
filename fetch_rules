@@ -20,6 +20,11 @@ curl_setopt_array($ch, [
 $json = curl_exec($ch);
 curl_close($ch);
 
+if ($json === FALSE) {
+   fprintf(STDERR, "Accessing %s failed\n", $argv[1]);
+   exit(2);
+}
+
 // Decode JSON, filter it and output as iptables format
 $output = json_decode($json, TRUE);
 $output = drop_skip($output, `hostname -I`);
