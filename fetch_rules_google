@@ -1,9 +1,13 @@
 #!/usr/bin/env php
 <?php
 
+$hosts = $argv;
+# Replace program name with list of hosts
+$hosts[0] = trim(`hostname -I`);
+
 $_GET = [
     'format' => 'iptables',
-    'skip' => `hostname -I`,
+    'skip' => implode(" ", $hosts),
 ];
 
 require_once __DIR__ . '/dist/oikopupu.php';
