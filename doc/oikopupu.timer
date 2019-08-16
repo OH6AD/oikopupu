@@ -5,6 +5,7 @@ Description=Sync PupuNet peering tables periodically
 [Timer]
 OnUnitActiveSec=1h
 Persistent=true
+OnBootSec=0s
 
 [Install]
 WantedBy=timers.target
