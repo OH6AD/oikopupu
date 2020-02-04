@@ -20,8 +20,15 @@ foreach ($panana as $device) {
 
     // Resolve Internet IPv4
     $host_raw = $device->internet_host;
-    $inet_ipv4 = gethostbyname($host_raw);
-    if ($inet_ipv4 === $host_raw) throw new Exception("Unable to resolve hostname $host_raw");
+
+    try {
+        // First try if it is an IP address
+        $inet_ipv4 = ipv4_normalize($host_raw);
+    } catch (Exception $e) {
+        // If not, try to resolve host name
+        $inet_ipv4 = gethostbyname($host_raw);
+        if ($inet_ipv4 === $host_raw) throw new Exception("Unable to resolve hostname $host_raw");
+    }
 
     // Create the record
     array_push($output, [
