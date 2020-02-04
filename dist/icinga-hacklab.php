@@ -2,37 +2,28 @@
 
 require_once __DIR__ . '/../common.php';
 
-$host_garbage = [
-    'host_name',
-    'host_display_name',
-    "host_icon_image",
-    "host_icon_image_alt",
-    "host_output",
-    "host_attempt",
-    "host_active_checks_enabled",
-    "host_passive_checks_enabled",
-    "host_notifications_enabled",
-    "host_handled",
-    "host_in_downtime",
+$host_relevant = [
+    'host_state',
+    'host_acknowledged',
+    'host_is_flapping',
+    'host_state_type',
+    'host_last_state_change',
 ];
 
-$service_garbage = [
-    "host_name",
-    "host_display_name",
-    "host_state",
-    "service_display_name",
-    "service_description",
-    "service_output",
-    "service_perfdata",
-    "service_attempt",
-    "service_icon_image",
-    "service_icon_image_alt",
-    "service_severity",
-    "service_active_checks_enabled",
-    "service_passive_checks_enabled",
-    "service_notifications_enabled",
-    "service_handled",
-    "service_in_downtime",
+$service_relevant = [
+    "service_state",
+    "service_acknowledged",
+    "service_last_state_change",
+    "service_is_flapping",
+    "service_state_type",
+];
+
+$downtime_relevant = [
+    'comment',
+    'scheduled_start',
+    'scheduled_end',
+    'entry_time',
+    'is_in_effect',
 ];
 
 // https://icinga.com/docs/icinga2/latest/doc/03-monitoring-basics/
@@ -46,14 +37,6 @@ $enums = [
     "service_is_flapping"  => [ 0 => false, 1 => true ],
     "host_state_type"      => [ 0 => 'SOFT', 1 => 'HARD' ],
     "service_state_type"   => [ 0 => 'SOFT', 1 => 'HARD' ],
-];
-
-$downtime_relevant = [
-    'comment',
-    'scheduled_start',
-    'scheduled_end',
-    'entry_time',
-    'is_in_effect',
 ];
 
 function enumify($k, $v) {
@@ -96,38 +79,29 @@ $downtimes = json_decode($json, TRUE);
 // Building assoc array for hosts
 $root = [];
 foreach ($hosts as &$host) {
+    unset($out);
     $out = [];
     $root[$host['host_name']] = &$out;
 
-    // Clean unnecessary elements
-    foreach ($host_garbage as &$item) {
-        unset($host[$item]);
+    // Fill in only relevant information
+    foreach ($host_relevant as $key) {
+        $out[preg_replace('/^host_/', '', $key)] = enumify($key, $host[$key]);
     }
 
-    // Copy and shorten the names
-    foreach ($host as $k => $v) {
-        $out[preg_replace('/^host_/', '', $k)] = enumify($k,$v);
-    }
-
+    // Prepare service object
     $out['services'] = [];
-    unset($out);
 }
 
 // Filling in services for each host
 foreach ($services as &$service) {
+    unset($out);
     $out = [];
     $root[$service['host_name']]['services'][$service['service_display_name']] = &$out;
 
-    // Clean unnecessary elements
-    foreach ($service_garbage as &$item) {
-        unset($service[$item]);
+    // Fill in only relevant information
+    foreach ($service_relevant as $key) {
+        $out[preg_replace('/^service_/', '', $key)] = enumify($key, $service[$key]);
     }
-
-    // Copy and shorten the names
-    foreach ($service as $k => $v) {
-        $out[preg_replace('/^service_/', '', $k)] = enumify($k,$v);
-    }
-    unset($out);
 }
 
 // Fill in downtime data
