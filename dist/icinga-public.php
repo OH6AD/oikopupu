@@ -139,5 +139,6 @@ foreach ($downtimes as &$downtime) {
 }
 
 // Output it
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 print(json_encode($root));
