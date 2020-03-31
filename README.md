@@ -12,6 +12,8 @@ hosted on Google Sheets to run the server side part of this
 application. For running the client you only need URL of the web
 service.
 
+Supports nftables framework but also legacy iptables.
+
 NB! You need to ensure all the peered hosts provide the same services
 (such as HTTP) to both Pupu and Internet interfaces.
 

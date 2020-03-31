@@ -1,6 +1,6 @@
 # /etc/systemd/system/oikopupu.service
 #
-# This is nftables framework (nft) version. Check oikopupu-iptables.service for iptables version
+# This is iptables version. Check oikopupu.service for nft version
 [Unit]
 Description=PupuNet peering table sync
 After=network-online.target
@@ -11,4 +11,4 @@ Requires=netfilter-persistent.service
 Type=oneshot
 User=root
 Group=root
-ExecStart=/bin/sh -c "sudo -Hu USER /PATH/TO/oikopupu/fetch_rules https://EXAMPLE.COM/oikopupu/ | iptables-nft-restore --noflush"
+ExecStart=/bin/sh -c "sudo -Hu USER /PATH/TO/oikopupu/fetch_rules https://EXAMPLE.COM/oikopupu/ | iptables-restore --noflush"
