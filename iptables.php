@@ -11,7 +11,7 @@ function iptables_format($output) {
     // Filter for allowed Pupu hosts
     print("*filter\n-F PUPU_FILTER\n");
     foreach($output as $a) {
-        $comment_arg = '"'.escapeshellcmd(sprintf("%-${comment_len}s", $a['dev'])).'"';
+        $comment_arg = '"'.escapeshellcmd(sprintf("%-{$comment_len}s", $a['dev'])).'"';
         printf(
             "-A PUPU_FILTER -d %s -j ACCEPT -m comment --comment %s\n",
             $a['pupu_ipv4'], $comment_arg
@@ -23,7 +23,7 @@ function iptables_format($output) {
 
     // Produce rules
     foreach($output as $a) {
-        $comment_arg = '"'.escapeshellcmd(sprintf("%-${comment_len}s", $a['dev'])).'"';
+        $comment_arg = '"'.escapeshellcmd(sprintf("%-{$comment_len}s", $a['dev'])).'"';
         printf(
             "-A PUPU_DNAT -d %s -j DNAT --to-destination %s -m comment --comment %s\n",
             $a['inet_ipv4'], $a['pupu_ipv4'], $comment_arg
