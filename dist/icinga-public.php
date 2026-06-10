@@ -118,7 +118,7 @@ foreach ($downtimes as &$downtime) {
         break;
     default:
         // Unknown object type, skip it
-        continue;
+        continue 2;
     }
 
     // If we already have downtime, check if it is older
